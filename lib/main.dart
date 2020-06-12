@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -25,14 +27,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<String> myFriends = ['Felix', 'Amanda', 'Sebastian'];
-  int color;
-
-  @override
-  void initState() {
-    color = 0xffd4c8e1;
-    super.initState();
-  }
+  final List<Friend> myFriends = [
+    Friend(name: 'Felix', color: 0xff738f66),
+    Friend(name: 'Amanda', color: 0xff5e5e5e),
+    Friend(name: 'Sebastian', color: 0xffff9190),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Icon(Icons.color_lens),
         onPressed: () {
           myFriends.forEach((friend) {
-            color = 0xffe8a49c;
+            friend.color = (Random().nextDouble() * 0xFFFFFFFF).toInt();
           });
           setState(() {});
         },
@@ -65,10 +64,10 @@ class _MyHomePageState extends State<MyHomePage> {
               itemCount: myFriends.length,
               itemBuilder: (context, int index) {
                 return Container(
-                  color: Color(color),
+                  color: Color(myFriends[index].color),
                   child: ListTile(
                     title: Text(
-                      myFriends[index],
+                      myFriends[index].name,
                     ),
                   ),
                 );
@@ -79,4 +78,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+}
+
+class Friend {
+  String name;
+  int color;
+
+  Friend({this.name, this.color});
 }
